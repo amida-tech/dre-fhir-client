@@ -1,5 +1,3 @@
 'use strict';
 
-var fhirClient = require('./lib/fhirClient');
-
-exports.search = fhirClient.search;
+module.exports = require('./fhirjslib/adapters/node.js');
