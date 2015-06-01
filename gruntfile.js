@@ -4,6 +4,7 @@
 
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-shell');
@@ -52,11 +53,20 @@ module.exports = function (grunt) {
                 }
             }
         },
+        express: {
+            dev: {
+                options: {
+                    script: 'node_modules/dre-fhir-server/server.js',
+                    port: 3002
+                }
+            }
+        },
         mochaTest: {
             test: {
                 options: {
                     reporter: 'spec',
-                    timeout: '1000'
+                    timeout: '2000',
+                    bail: true
                 },
                 src: ['test/**/*.js']
             }
@@ -71,5 +81,5 @@ module.exports = function (grunt) {
     grunt.registerTask('beautify', ['jsbeautifier:beautify']);
     grunt.registerTask('mocha', ['mochaTest']);
     grunt.registerTask('coverage', ['shell:run_istanbul']);
-    grunt.registerTask('default', ['beautify', 'jshint', 'mocha']);
+    grunt.registerTask('default', ['beautify', 'jshint', 'express:dev', 'mocha']);
 };

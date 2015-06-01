@@ -8,10 +8,8 @@ var fc = require('../index');
 
 var expect = chai.expect;
 
-describe('localhost:1337/fhir', function () {
-    var client = fc({
-        baseUrl: 'http://localhost:1337/fhir'
-    });
+describe('http://argonaut.healthintersections.com.au/', function () {
+    var client;
 
     xit('get all patients that are born in 1965', function (done) {
         this.timeout(20000);
@@ -26,7 +24,6 @@ describe('localhost:1337/fhir', function () {
                 done(err);
             } else {
                 expect(bundle).to.exist;
-                console.log(bundle);
                 bundle.entry.forEach(function (bundleEntry) {
                     var resource = bundleEntry.resource;
                     var dob = resource.birthDate;
@@ -41,7 +38,7 @@ describe('localhost:1337/fhir', function () {
         this.timeout(5000);
 
         client.search({
-            type: 'Observation',
+            type: 'Patient',
             query: {}
         }, function (err, bundle) {
             if (err) {
@@ -49,6 +46,35 @@ describe('localhost:1337/fhir', function () {
             } else {
                 expect(bundle.entry).to.have.length.above(0);
                 done();
+            }
+        });
+    });
+
+    var getAll = function (bundle, callback) {
+
+    };
+
+    xit('get next page', function (done) {
+        this.timeout(50000);
+
+        client.search({
+            type: 'Patient',
+            query: {}
+        }, function (err, bundle) {
+            if (err) {
+                done(err);
+            } else {
+                expect(bundle.entry).to.have.length.above(0);
+                client.nextPage({
+                    bundle: bundle
+                }, function (err, nextBundle) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        expect(nextBundle.entry).to.have.length.above(0);
+                        done();
+                    }
+                });
             }
         });
     });
