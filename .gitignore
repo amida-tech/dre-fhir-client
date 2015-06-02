@@ -31,3 +31,6 @@ generated
 
 # server info, pws, etc
 private
+
+# used for calling external servers
+app.js
