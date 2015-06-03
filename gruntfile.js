@@ -80,6 +80,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('beautify', ['jsbeautifier:beautify']);
     grunt.registerTask('mocha', ['mochaTest']);
-    grunt.registerTask('coverage', ['shell:run_istanbul']);
+    grunt.registerTask('coverage', ['express:dev', 'shell:run_istanbul']);
     grunt.registerTask('default', ['beautify', 'jshint', 'express:dev', 'mocha']);
 };
