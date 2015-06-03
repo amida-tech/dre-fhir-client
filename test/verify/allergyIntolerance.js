@@ -16,19 +16,14 @@ var sanityChecks = function (resource) {
 };
 
 var isSupported = (function () {
-    var unsupportedChecks = [{
-        title: '  Uncoded substance is not supported',
-        fn: function (resource) {
-            return _.get(resource, 'substance.coding', null) === null;
-        }
-    }];
+    var unsupportedChecks = [];
 
     return function (resource) {
         var n = unsupportedChecks.length;
         for (var i = 0; i < n; ++i) {
             var check = unsupportedChecks[i];
             if (check.fn(resource)) {
-                console.log(check.title);
+                console.log('  unsupported: ' + check.title);
                 return false;
             }
         }
@@ -45,11 +40,26 @@ var pruneSource = function (resource) {
 };
 
 var addExpectedChanges = function (resource) {
-
+    // one manifestation per event
+    if (_.get(resource, 'event[0].manifestation[0]')) {
+        var newEvents = resource.event.reduce(function (r, event) {
+            var n = event.manifestation && event.manifestation.length;
+            if (n > 1) {
+                var extraManifestations = event.manifestation.splice(1, n - 1);
+                extraManifestations.forEach(function (manifestation) {
+                    var newEvent = _.cloneDeep(event);
+                    newEvent.manifestation = [manifestation];
+                    r.push(newEvent);
+                });
+            }
+            return r;
+        }, []);
+        Array.prototype.push.apply(resource.event, newEvents);
+    }
 };
 
-var pruneTranslation = function (resource) {
-    if (_.get(resource, 'substance.text', null) !== null) {
+var pruneTranslation = function (resource, srcResource) {
+    if (_.get(srcResource, 'substance.text', null) === null) {
         delete resource.substance.text;
     }
     if (resource.event) {
@@ -77,8 +87,9 @@ module.exports = function (resource) {
 
         pruneSource(resourceCopy);
         addExpectedChanges(resourceCopy);
-        pruneTranslation(resourceBack);
+        pruneTranslation(resourceBack, resourceCopy);
 
         expect(resourceBack).to.deep.equal(resourceCopy);
+        console.log('  verified');
     }
 };
