@@ -37,6 +37,7 @@ describe('dre-fhir-server', function () {
     });
 
     var patients = {};
+    var patientIds = [];
 
     patientSamples.forEach(function (patientSample, index) {
         var title = util.format('create patient #%s', index);
@@ -46,6 +47,7 @@ describe('dre-fhir-server', function () {
                     done(err);
                 } else {
                     patients[id] = patientSample;
+                    patientIds.push(id);
                     done();
                 }
             });
@@ -75,6 +77,77 @@ describe('dre-fhir-server', function () {
                 } catch (e) {
                     done(e);
                 }
+            }
+        });
+    });
+
+    patientSamples.forEach(function (patientSample, index) {
+        it('read patient ' + index, function (done) {
+            var id = patientIds[index];
+            fc.read(server, 'Patient', id, function (err, resource) {
+                if (err) {
+                    done(err);
+                } else {
+                    try {
+                        expect(resource.id).to.equal(id);
+                        delete resource.id;
+                        delete resource.meta;
+                        expect(resource).to.deep.equal(patients[id]);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+            });
+        });
+    }, this);
+
+    it('update patient 0', function (done) {
+        var id = patientIds[0];
+        var sample = _.cloneDeep(patientSamples[0]);
+        sample.id = id;
+        sample.gender = 'female';
+        fc.update(server, 'Patient', id, sample, function (err) {
+            if (err) {
+                done(err);
+            } else {
+                fc.read(server, 'Patient', id, function (err, resource) {
+                    try {
+                        expect(resource.id).to.equal(id);
+                        delete resource.id;
+                        delete resource.meta;
+                        delete sample.id;
+                        expect(resource).to.deep.equal(sample);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+            }
+        });
+    });
+
+    it('delete patient 0', function (done) {
+        var id = patientIds[0];
+        fc.delete(server, 'Patient', id, function (err) {
+            if (err) {
+                done(err);
+            } else {
+                fc.search(server, 'Patient', {}, function (err, bundle) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        try {
+                            expect(bundle).to.exist();
+                            var entries = bundle.entry;
+                            expect(entries).to.exist();
+                            expect(entries.length).to.equal(patientSamples.length - 1);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    }
+                });
             }
         });
     });
