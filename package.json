@@ -29,7 +29,6 @@
     },
     "devDependencies": {
         "blue-button-gen-fhir": "^1.5.0-beta.2",
-        "blue-button-record": "^1.5.0-beta.7",
         "blue-button-util": "^1.5.0-beta.2",
         "chai": "^2.3.0",
         "dirty-chai": "^1.2.1",
