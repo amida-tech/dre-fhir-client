@@ -12,7 +12,7 @@ var dirtyChai = require('dirty-chai');
 chai.use(dirtyChai);
 var expect = chai.expect;
 
-module.exports = exports = (function() {
+module.exports = exports = (function () {
     var allergyIntolerance = Object.create(resourceVerify);
     allergyIntolerance.sectionName = 'allergies';
     allergyIntolerance.unsupportedChecks = [];

@@ -12,7 +12,7 @@ var dirtyChai = require('dirty-chai');
 chai.use(dirtyChai);
 var expect = chai.expect;
 
-module.exports = exports = (function() {
+module.exports = exports = (function () {
     var condition = Object.create(resourceVerify);
     condition.sectionName = 'problems';
     condition.unsupportedChecks = [];

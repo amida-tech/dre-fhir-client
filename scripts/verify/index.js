@@ -28,7 +28,7 @@ exports.verifyBundle = function (bundle) {
     });
 };
 
-exports.verifyBundleFromModule = function(bundleModulePath, writeIndex) {
+exports.verifyBundleFromModule = function (bundleModulePath, writeIndex) {
     var p = path.join(__dirname, '../../', bundleModulePath);
     var bundle = require(p);
     if (writeIndex !== undefined) {

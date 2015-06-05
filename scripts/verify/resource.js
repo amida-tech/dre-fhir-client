@@ -13,11 +13,11 @@ var expect = chai.expect;
 module.exports = exports = {};
 
 exports.sanityChecks = function (resource) {
-	var p = this.patient;
-	if (p) {
-	    expect(resource[p]).to.exist();
-    	expect(resource[p].reference).to.exist();
-	}
+    var p = this.patient;
+    if (p) {
+        expect(resource[p]).to.exist();
+        expect(resource[p].reference).to.exist();
+    }
 };
 
 exports.isSupported = function (resource) {
@@ -38,7 +38,7 @@ exports.run = function (resource) {
     this.sanityChecks(resource);
 
     if (this.isSupported(resource)) {
-    	var sectionName = this.sectionName;
+        var sectionName = this.sectionName;
         var entry = bbf.resourceToModelEntry(resource, sectionName);
         expect(entry).to.exist();
 

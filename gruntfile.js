@@ -68,12 +68,12 @@ module.exports = function (grunt) {
                     timeout: '2000',
                     bail: true
                 },
-                src: ['test/**/test-*.js']
+                src: ['test/**/test-*.js', '!test/verify']
             }
         },
         shell: {
             run_istanbul: {
-                command: "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec --recursive"
+                command: "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec --recursive --timeout 2000"
             }
         }
     });
