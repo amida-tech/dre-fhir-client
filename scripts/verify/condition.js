@@ -1,16 +1,8 @@
 'use strict';
 
-var bbf = require('blue-button-fhir');
-var bbgf = require('blue-button-gen-fhir');
+var _ = require('lodash');
 
 var resourceVerify = require('./resource');
-
-var _ = require('lodash');
-var chai = require('chai');
-var dirtyChai = require('dirty-chai');
-
-chai.use(dirtyChai);
-var expect = chai.expect;
 
 module.exports = exports = (function () {
     var condition = Object.create(resourceVerify);

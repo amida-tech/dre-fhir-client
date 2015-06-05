@@ -32,6 +32,12 @@ exports.isSupported = function (resource) {
     return true;
 };
 
+exports.pruneSource = function (resource) {
+};
+
+exports.pruneTranslation = function (resource, srcResource) {
+};
+
 exports.addExpectedChanges = function (resource) {};
 
 exports.run = function (resource) {
