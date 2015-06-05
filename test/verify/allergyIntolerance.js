@@ -73,7 +73,7 @@ var pruneTranslation = function (resource, srcResource) {
     }
 };
 
-module.exports = function (resource) {
+exports.run = function (resource) {
     sanityChecks(resource);
 
     if (isSupported(resource)) {

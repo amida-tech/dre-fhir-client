@@ -1,5 +1,7 @@
 'use strict';
 
+var path = require('path');
+
 var chai = require('chai');
 var dirtyChai = require('dirty-chai');
 
@@ -20,7 +22,17 @@ exports.verifyBundle = function (bundle) {
         var resource = entry.resource;
         var resourceType = resource.resourceType.toLowerCase();
         var resourceVerify = verifierMap[resourceType];
-        resourceVerify(resource);
+        expect(resourceVerify).to.exist();
+        resourceVerify.run(resource);
         console.log('');
     });
+};
+
+exports.verifyBundleFromModule = function(bundleModulePath, writeIndex) {
+    var p = path.join(__dirname, '../../', bundleModulePath);
+    var bundle = require(p);
+    if (writeIndex !== undefined) {
+        console.log(JSON.stringify(bundle.entry[writeIndex].resource, undefined, 4));
+    }
+    exports.verifyBundle(bundle);
 };

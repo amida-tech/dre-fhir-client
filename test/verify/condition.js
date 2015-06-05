@@ -59,7 +59,7 @@ var pruneTranslation = function (resource, srcResource) {
     delete resource.dateAsserted;
 };
 
-module.exports = function (resource) {
+exports.run = function (resource) {
     sanityChecks(resource);
 
     if (isSupported(resource)) {
