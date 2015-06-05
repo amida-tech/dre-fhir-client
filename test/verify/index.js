@@ -7,7 +7,8 @@ chai.use(dirtyChai);
 var expect = chai.expect;
 
 var verifierMap = {
-    'allergyintolerance': require('./allergyIntolerance')
+    'allergyintolerance': require('./allergyIntolerance'),
+    'condition': require('./condition')
 };
 
 exports.verifyBundle = function (bundle) {
