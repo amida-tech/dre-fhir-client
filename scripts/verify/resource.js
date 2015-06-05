@@ -24,9 +24,12 @@ exports.isSupported = function (resource) {
     var n = this.unsupportedChecks.length;
     for (var i = 0; i < n; ++i) {
         var check = this.unsupportedChecks[i];
-        if (check.fn(resource)) {
-            console.log('  unsupported: ' + check.title);
-            return false;
+        var result = check.fn(resource);
+        if (result) {
+            console.log('  unsupported (' + result + '): ' + check.title);
+            if (result === 'fatal') {
+                return false;
+            }
         }
     }
     return true;

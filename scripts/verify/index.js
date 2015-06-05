@@ -4,6 +4,7 @@ var path = require('path');
 
 var chai = require('chai');
 var dirtyChai = require('dirty-chai');
+var _ = require('lodash');
 
 chai.use(dirtyChai);
 var expect = chai.expect;
@@ -14,11 +15,15 @@ var verifierMap = {
     'patient': require('./patient')
 };
 
-exports.verifyBundle = function (bundle) {
+exports.verifyBundle = function (bundle, startIndex) {
     var entries = bundle.entry;
-    expect(entries.length).to.be.above(0);
+    if (startIndex === undefined) {
+        startIndex = 0;
+    }
+    expect(entries.length).to.be.above(startIndex);
 
-    entries.forEach(function (entry, index) {
+    _.range(startIndex, entries.length).forEach(function (index) {
+        var entry = entries[index];
         console.log('verifying entry ' + index);
         var resource = entry.resource;
         var resourceType = resource.resourceType.toLowerCase();
@@ -29,11 +34,11 @@ exports.verifyBundle = function (bundle) {
     });
 };
 
-exports.verifyBundleFromModule = function (bundleModulePath, writeIndex) {
+exports.verifyBundleFromModule = function (bundleModulePath, errorIndex) {
     var p = path.join(__dirname, '../../', bundleModulePath);
     var bundle = require(p);
-    if (writeIndex !== undefined) {
-        console.log(JSON.stringify(bundle.entry[writeIndex].resource, undefined, 4));
+    if (errorIndex !== undefined) {
+        console.log(JSON.stringify(bundle.entry[errorIndex].resource, undefined, 4));
     }
-    exports.verifyBundle(bundle);
+    exports.verifyBundle(bundle, errorIndex);
 };
