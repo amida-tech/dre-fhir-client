@@ -87,8 +87,8 @@ exports.pruneSource = function (resource) {
     if (resource.identifier) {
     	resource.identifier.forEach(function(identifier) {
     		delete identifier.use;
-    		delete identifier.assigner,
-    		delete identifier.period
+    		delete identifier.assigner;
+    		delete identifier.period;
     	});
     }
 

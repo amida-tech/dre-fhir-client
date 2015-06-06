@@ -14,7 +14,7 @@ module.exports = exports = (function () {
 
 exports.pruneSource = function (resource) {
     delete resource.id;
-    delete resource.identifier; // to be fixed
+    delete resource.identifier;
     delete resource.patient;
     delete resource.meta;
     delete resource.text;

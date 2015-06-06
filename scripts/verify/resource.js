@@ -48,6 +48,7 @@ exports.run = function (resource) {
 
     if (this.isSupported(resource)) {
         var sectionName = this.sectionName;
+        sectionName = (typeof sectionName === 'function') ? sectionName(resource) : sectionName;
         var entry = bbf.resourceToModelEntry(resource, sectionName);
         expect(entry).to.exist();
 
@@ -63,4 +64,13 @@ exports.run = function (resource) {
         expect(resourceBack).to.deep.equal(resourceCopy);
         console.log('  verified');
     }
+};
+
+exports.updateText = function (resource, srcResource, path) {
+    var codeText = _.get(srcResource, path);
+    if (! codeText) {
+        codeText = undefined;
+        _.set(srcResource, path, undefined);
+    }
+    _.set(resource, path, codeText);
 };

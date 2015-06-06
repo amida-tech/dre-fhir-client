@@ -12,7 +12,8 @@ var expect = chai.expect;
 var verifierMap = {
     'allergyintolerance': require('./allergyIntolerance'),
     'condition': require('./condition'),
-    'patient': require('./patient')
+    'patient': require('./patient'),
+    'observation': require('./observation')
 };
 
 exports.verifyBundle = function (bundle, startIndex) {
