@@ -43,16 +43,32 @@ exports.pruneTranslation = function (resource, srcResource) {
 
 exports.addExpectedChanges = function (resource) {};
 
-exports.run = function (resource) {
+exports.toEntry = function(resource) {
+    var sectionName = this.sectionName;
+    sectionName = (typeof sectionName === 'function') ? sectionName(resource) : sectionName;
+    var entry = bbf.resourceToModelEntry(resource, sectionName);
+    return entry;
+};
+
+exports.toResource = function(entry, displayResource) {
+    var sectionName = this.sectionName;
+    var resource = bbgf.entryToResource(sectionName, entry);
+    if (displayResource) {
+        console.log('====== Translated Resource');
+        console.log(JSON.stringify(resource, undefined, 4));
+        console.log('======');
+    }
+    return resource;
+};
+
+exports.run = function (resource, displayEntry) {
     this.sanityChecks(resource);
 
     if (this.isSupported(resource)) {
-        var sectionName = this.sectionName;
-        sectionName = (typeof sectionName === 'function') ? sectionName(resource) : sectionName;
-        var entry = bbf.resourceToModelEntry(resource, sectionName);
+        var entry = this.toEntry(resource, displayEntry);
         expect(entry).to.exist();
 
-        var resourceBack = bbgf.entryToResource(sectionName, entry);
+        var resourceBack = this.toResource(entry, displayEntry);
         expect(resourceBack).to.exist();
 
         var resourceCopy = _.cloneDeep(resource);
@@ -74,3 +90,28 @@ exports.updateText = function (resource, srcResource, path) {
     }
     _.set(resource, path, codeText);
 };
+
+exports.unsupportedFieldWarningCheck = function(path) {
+    return {
+        title: path,
+        fn: function(resource) {
+            if (_.has(resource, path)) {
+                var pieces = path.split('.');
+                var obj = resource;
+                var n = pieces.length;
+                var p = pieces[n-1];
+                if (n > 1) {
+                    var pathBefore = pieces.slice(0, n-1).join('.');
+                    obj = _.get(obj, pathBefore);
+                }
+                if (obj) {
+                    delete obj[p];
+                }
+                return 'warning';
+            } else {
+                return null;
+            }
+        }
+    };
+};
+

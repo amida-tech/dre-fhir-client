@@ -13,11 +13,13 @@ var verifierMap = {
     'allergyintolerance': require('./allergyIntolerance'),
     'condition': require('./condition'),
     'patient': require('./patient'),
-    'observation': require('./observation')
+    'observation': require('./observation'),
+    'medicationstatement': require('./medicationStatement')
 };
 
 exports.verifyBundle = function (bundle, startIndex) {
     var entries = bundle.entry;
+    var displayEntry = (startIndex !== undefined);
     if (startIndex === undefined) {
         startIndex = 0;
     }
@@ -29,8 +31,8 @@ exports.verifyBundle = function (bundle, startIndex) {
         var resource = entry.resource;
         var resourceType = resource.resourceType.toLowerCase();
         var resourceVerify = verifierMap[resourceType];
-        expect(resourceVerify).to.exist();
-        resourceVerify.run(resource);
+        expect(resourceVerify, resourceType + ' not supported').to.exist();
+        resourceVerify.run(resource, displayEntry);
         console.log('');
     });
 };
