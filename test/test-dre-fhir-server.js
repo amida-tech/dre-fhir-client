@@ -68,6 +68,7 @@ describe('dre-fhir-server', function () {
                         var resource = _.cloneDeep(entry.resource);
                         r[resource.id] = resource;
                         delete resource.id;
+                        delete resource.meta;
                         return r;
                     }, {});
                     Object.keys(patients).forEach(function (id) {
