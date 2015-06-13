@@ -1,6 +1,6 @@
 {
     "name": "dre-fhir-client",
-    "version": "1.5.0-beta.1",
+    "version": "1.5.0",
     "description": "DRE FHIR Client",
     "main": "./index.js",
     "directories": {
@@ -23,26 +23,26 @@
         "node": ">= 0.10.0"
     },
     "dependencies": {
-        "blue-button-fhir": "^1.5.0-beta.3",
-        "express": "^4.12.4",
-        "lodash": "^3.9.3",
-        "request": "^2.54.0",
-        "simple-oauth2": "^0.2.1"
+        "blue-button-fhir": "~1.5.0",
+        "express": "~4.12.4",
+        "lodash": "~3.9.3",
+        "request": "~2.54.0",
+        "simple-oauth2": "~0.2.1"
     },
     "devDependencies": {
-        "blue-button-gen-fhir": "^1.5.0-beta.2",
-        "blue-button-util": "^1.5.0-beta.2",
-        "chai": "^2.3.0",
-        "coveralls": "^2.11.2",
-        "dirty-chai": "^1.2.1",
-        "dre-fhir-server": "^1.5.0-beta.3",
-        "grunt": "^0.4.5",
-        "grunt-contrib-jshint": "^0.11.1",
-        "grunt-express-server": "^0.5.1",
-        "grunt-jsbeautifier": "^0.2.10",
-        "grunt-mocha-test": "^0.12.7",
-        "grunt-shell": "^1.1.2",
-        "mocha": "^2.2.5"
+        "blue-button-gen-fhir": "~1.5.0",
+        "blue-button-util": "~1.5.0",
+        "chai": "~2.3.0",
+        "coveralls": "~2.11.2",
+        "dirty-chai": "~1.2.1",
+        "dre-fhir-server": "~1.5.0",
+        "grunt": "~0.4.5",
+        "grunt-contrib-jshint": "~0.11.1",
+        "grunt-express-server": "~0.5.1",
+        "grunt-jsbeautifier": "~0.2.10",
+        "grunt-mocha-test": "~0.12.7",
+        "grunt-shell": "~1.1.2",
+        "mocha": "~2.2.5"
     },
     "repository": {
         "type": "git",
